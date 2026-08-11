@@ -1,10 +1,26 @@
 ﻿"use client";
 import { useState } from "react";
 
+interface Step {
+  stop_id: string;
+  stop_name: string;
+  lat: number;
+  lon: number;
+  type: string;
+  change_to?: string;
+}
+
+interface RouteResult {
+  from: string;
+  to: string;
+  total_stops: number;
+  steps: Step[];
+}
+
 export default function Home() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<RouteResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -22,7 +38,7 @@ export default function Home() {
         setError(err.detail);
         return;
       }
-      const data = await res.json();
+      const data: RouteResult = await res.json();
       setResult(data);
     } catch {
       setError("Gagal konek ke server!");
@@ -35,7 +51,7 @@ export default function Home() {
     <main className="min-h-screen bg-gray-950 text-white p-6">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-green-400">JakRoute</h1>
+          <h1 className="text-3xl font-bold text-green-400">🚌 JakRoute</h1>
           <p className="text-gray-400 mt-1">Cari rute Transjakarta terbaik</p>
         </div>
         <div className="bg-gray-900 rounded-xl p-5 mb-6 space-y-3">
@@ -44,42 +60,51 @@ export default function Home() {
             placeholder="Dari mana? (contoh: Blok M)"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && searchRoute()}
           />
           <input
             className="w-full bg-gray-800 rounded-lg px-4 py-3 text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-green-500"
             placeholder="Ke mana? (contoh: Monas)"
             value={to}
             onChange={(e) => setTo(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && searchRoute()}
           />
           <button
             onClick={searchRoute}
             disabled={loading}
             className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-700 text-white font-semibold py-3 rounded-lg transition"
           >
-            {loading ? "Mencari rute..." : "Cari Rute"}
+            {loading ? "Mencari rute..." : "Cari Rute 🔍"}
           </button>
         </div>
         {error && (
           <div className="bg-red-900/50 border border-red-500 rounded-xl p-4 mb-6 text-red-300">
-            {error}
+            ❌ {error}
           </div>
         )}
         {result && (
           <div className="bg-gray-900 rounded-xl p-5">
-            <h2 className="font-semibold text-lg mb-4">{result.from} ke {result.to} ({result.total_stops} halte)</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="font-semibold text-lg">{result.from} → {result.to}</h2>
+              <span className="text-sm bg-green-900 text-green-300 px-3 py-1 rounded-full">
+                {result.total_stops} halte
+              </span>
+            </div>
             <div className="space-y-1">
-              {result.steps.map((step, i) => (
+              {result.steps.map((step: Step, i: number) => (
                 <div key={i}>
                   {step.change_to && (
                     <div className="my-2 ml-4">
                       <span className="text-xs bg-blue-900 text-blue-300 px-2 py-1 rounded-full">
-                        Naik jurusan {step.change_to}
+                        🔄 Naik jurusan {step.change_to}
                       </span>
                     </div>
                   )}
                   <div className="flex items-center gap-3">
-                    <span>{step.type === "start" ? "🔵" : step.type === "end" ? "🔴" : "⚪"}</span>
-                    <span className={step.type === "start" || step.type === "end" ? "font-semibold" : "text-gray-400"}>
+                    <span className="text-lg">
+                      {step.type === "start" ? "🔵" : step.type === "end" ? "🔴" : "⚪"}
+                    </span>
+                    <span className={step.type === "start" || step.type === "end" ? "font-semibold text-white" : "text-gray-400"}>
                       {step.stop_name}
                     </span>
                   </div>
