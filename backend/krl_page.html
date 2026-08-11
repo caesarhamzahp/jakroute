@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="id">
+<head>
+
+	
+        <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+<title>KAI Commuter</title>
+    
+    
+    
+        <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    integrity="sha512-L7MWcK7FNPcwNqnLdZq86lTHYLdQqZaz5YcAgE+5cnGmlw8JT03QB2+oxL100UeB6RlzZLUxCGSS4/++mNZdxw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="icon" href="https://kci.id/img/favicon-kci.jpg">
+
+<link rel="stylesheet" href="https://kci.id/css/kci.css">
+
+    
+</head>
+<body>
+
+    <div id="root">
+
+        
+        <header class="header-global">
+
+    <div class="container inner-header-global">
+	<div class="row">
+		<div class="col-md-1">
+            <a href="https://kci.id"><img src="https://kci.id/img/kci_logo.png" alt=""></a>
+            
+        </div>
+
+        <div class="col-md-11">
+    <div class="top-nav">
+        <!-- <ul>
+                            <li><a href="https://kci.id/hubungi-kami">Kontak Kami</a></li>
+                            <li><a href="https://kci.id/karir">Karir</a></li>
+                    </ul> -->
+        <div class="search-box">
+            <form action="https://kci.id/search">
+                <a href="#" class="btn-search"><i class="fas fa-search"></i></a>
+
+                <input type="text" class="input-search" name="keyword" placeholder="Type to Search...">
+            </form>
+        </div>
+    </div>
+    <ul class="main-nav m-0">
+                    <li class=""> 
+                <a href="#"><span>Tentang Kami</span></a>
+                <div class="has-child">
+                    <p>Menghadirkan layanan transportasi kereta api yang terintegrasi untuk mobilitas yang berkualitas.</p>
+                    <ul>
+                                                    <li><a href="https://kci.id/tentang-kami/informasi-umum">Informasi Umum</a></li>
+                                                    <li><a href="https://kci.id/tentang-kami/filosofi-logo">Filosofi Logo</a></li>
+                                                    <li><a href="https://kci.id/tentang-kami/nilai-budaya">Nilai dan Budaya Perusahaan</a></li>
+                                                    <li><a href="https://kci.id/tentang-kami/inovasi">Inovasi</a></li>
+                                                    <li><a href="https://kci.id/tentang-kami/direksi">Direksi dan Komisaris</a></li>
+                                                    <li><a href="https://kci.id/tentang-kami/insan-kai-commuter">Insan KAI Commuter</a></li>
+                                            </ul>
+                </div>
+            </li>
+                    <li class=""> 
+                <a href="#"><span>Layanan</span></a>
+                <div class="has-child">
+                    <p>Menghadirkan layanan berkualitas untuk meningkatkan keamanan, kenyamanan, dan keselamatan rekan commuters.</p>
+                    <ul>
+                                                    <li><a href="https://kci.id/layanan/info-pelanggan">Info Pelanggan</a></li>
+                                                    <li><a href="https://kci.id/layanan/saran-dan-kritik">Saran dan Kritik</a></li>
+                                                    <li><a href="https://kci.id/layanan/layanan-pelanggan">Layanan Pelanggan</a></li>
+                                            </ul>
+                </div>
+            </li>
+                    <li class=""> 
+                <a href="#"><span>KMT</span></a>
+                <div class="has-child">
+                    <p>Nikmati kemudahan transaksi dengan Kartu Multi Trip untuk perjalanan lebih cepat, praktis, dan tanpa antre.</p>
+                    <ul>
+                                                    <li><a href="https://kci.id/kmt/informasi-kmt">Informasi KMT</a></li>
+                                                    <li><a href="https://kci.id/kmt/ketentuan-pengguna">Ketentuan Pengguna</a></li>
+                                                    <li><a href="https://kci.id/kmt/promo-kmt">Promo KMT</a></li>
+                                            </ul>
+                </div>
+            </li>
+                    <li class=""> 
+                <a href="#"><span>Info Perjalanan</span></a>
+                <div class="has-child">
+                    <p>Informasi perjalanan KRL terlengkap. Mulai dari jadwal perjalanan, tarif perjalanan, dan rute perjalanan.</p>
+                    <ul>
+                                                    <li><a href="https://kci.id/perjalanan-krl/jadwal-kereta">Jadwal Kereta</a></li>
+                                                    <li><a href="https://kci.id/perjalanan-krl/info-tarif">Info Tarif Perjalanan</a></li>
+                                                    <li><a href="https://kci.id/perjalanan-krl/peta-rute">Peta Rute</a></li>
+                                            </ul>
+                </div>
+            </li>
+                    <li class=""> 
+                <a href="https://kci.id/pengadaan"><span>Pengadaan</span></a>
+                <div class="has-child">
+                    <p>Pengadaan Barang/Jasa dengan proses yang optimal untuk mencapai kesepakatan terbaik.</p>
+                    <ul>
+                                            </ul>
+                </div>
+            </li>
+                    <li class=""> 
+                <a href="#"><span>Informasi Publik</span></a>
+                <div class="has-child">
+                    <p>Jelajahi informasi terkait KRL dan terhubung dengan kami melalui berita, cerita, dan wawasan terbaru.</p>
+                    <ul>
+                                                    <li><a href="https://kci.id/informasi-publik/berita">Berita</a></li>
+                                                    <li><a href="https://kci.id/informasi-publik/laporan-tahunan">Laporan Tahunan</a></li>
+                                                    <li><a href="https://kip.kci.id">PPID</a></li>
+                                            </ul>
+                </div>
+            </li>
+                    <li class=""> 
+                <a href="https://kci.id/gcg"><span>GCG</span></a>
+                <div class="has-child">
+                    <p>Perseroan patuh terhadap regulasi pemerintah untuk menciptakan ekosistem bisnis yang sehat, bertanggung jawab, dan kokoh.</p>
+                    <ul>
+                                            </ul>
+                </div>
+            </li>
+                    <li class=""> 
+                <a href="https://kci.id/space-iklan"><span>Space Iklan</span></a>
+                <div class="has-child">
+                    <p>Kembangkan bisnis Anda dengan memasang iklan di ekosistem bisnis KAI Commuter.</p>
+                    <ul>
+                                            </ul>
+                </div>
+            </li>
+                    <li class=""> 
+                <a href="https://kci.id/karir"><span>Karir</span></a>
+                <div class="has-child">
+                    <p></p>
+                    <ul>
+                                            </ul>
+                </div>
+            </li>
+                    <li class=""> 
+                <a href="https://kci.id/c-merch"><span>C-Merch</span></a>
+                <div class="has-child">
+                    <p>Dapatkan merchandise spesial untuk commuters dengan penawaran menarik.</p>
+                    <ul>
+                                            </ul>
+                </div>
+            </li>
+            </ul>
+</div>
+	</div>
+</div>    <div class="container header-mobile">
+	<div class="row">
+		<div class="header">
+    <div class="icon icon-kci">
+        <a href="https://kci.id">
+            <img src="https://kci.id/img/kci_logo.png" alt="">
+
+        </a>
+    </div>
+    <div class="burger-container">
+        <div id="burger">
+            <div class="bar topBar"></div>
+            <div class="bar midBar"></div>
+            <div class="bar btmBar"></div>
+        </div>
+    </div>
+
+    <ul class="menu">
+                    <li class="menu-item">
+                <a href="#">Tentang Kami</a>
+                <ul class="mobile-sub">
+                                            <li><a href="https://kci.id/tentang-kami/informasi-umum">Informasi Umum</a></li>
+                                            <li><a href="https://kci.id/tentang-kami/filosofi-logo">Filosofi Logo</a></li>
+                                            <li><a href="https://kci.id/tentang-kami/nilai-budaya">Nilai dan Budaya Perusahaan</a></li>
+                                            <li><a href="https://kci.id/tentang-kami/inovasi">Inovasi</a></li>
+                                            <li><a href="https://kci.id/tentang-kami/direksi">Direksi dan Komisaris</a></li>
+                                            <li><a href="https://kci.id/tentang-kami/insan-kai-commuter">Insan KAI Commuter</a></li>
+                                    </ul>
+            </li>
+                    <li class="menu-item">
+                <a href="#">Layanan</a>
+                <ul class="mobile-sub">
+                                            <li><a href="https://kci.id/layanan/info-pelanggan">Info Pelanggan</a></li>
+                                            <li><a href="https://kci.id/layanan/saran-dan-kritik">Saran dan Kritik</a></li>
+                                            <li><a href="https://kci.id/layanan/layanan-pelanggan">Layanan Pelanggan</a></li>
+                                    </ul>
+            </li>
+                    <li class="menu-item">
+                <a href="#">KMT</a>
+                <ul class="mobile-sub">
+                                            <li><a href="https://kci.id/kmt/informasi-kmt">Informasi KMT</a></li>
+                                            <li><a href="https://kci.id/kmt/ketentuan-pengguna">Ketentuan Pengguna</a></li>
+                                            <li><a href="https://kci.id/kmt/promo-kmt">Promo KMT</a></li>
+                                    </ul>
+            </li>
+                    <li class="menu-item">
+                <a href="#">Info Perjalanan</a>
+                <ul class="mobile-sub">
+                                            <li><a href="https://kci.id/perjalanan-krl/jadwal-kereta">Jadwal Kereta</a></li>
+                                            <li><a href="https://kci.id/perjalanan-krl/info-tarif">Info Tarif Perjalanan</a></li>
+                                            <li><a href="https://kci.id/perjalanan-krl/peta-rute">Peta Rute</a></li>
+                                    </ul>
+            </li>
+                    <li class="menu-item">
+                <a href="https://kci.id/pengadaan">Pengadaan</a>
+                <ul class="mobile-sub">
+                                    </ul>
+            </li>
+                    <li class="menu-item">
+                <a href="#">Informasi Publik</a>
+                <ul class="mobile-sub">
+                                            <li><a href="https://kci.id/informasi-publik/berita">Berita</a></li>
+                                            <li><a href="https://kci.id/informasi-publik/laporan-tahunan">Laporan Tahunan</a></li>
+                                            <li><a href="https://kip.kci.id">PPID</a></li>
+                                    </ul>
+            </li>
+                    <li class="menu-item">
+                <a href="https://kci.id/gcg">GCG</a>
+                <ul class="mobile-sub">
+                                    </ul>
+            </li>
+                    <li class="menu-item">
+                <a href="https://kci.id/space-iklan">Space Iklan</a>
+                <ul class="mobile-sub">
+                                    </ul>
+            </li>
+                    <li class="menu-item">
+                <a href="https://kci.id/karir">Karir</a>
+                <ul class="mobile-sub">
+                                    </ul>
+            </li>
+                    <li class="menu-item">
+                <a href="https://kci.id/c-merch">C-Merch</a>
+                <ul class="mobile-sub">
+                                    </ul>
+            </li>
+        
+                    <li class="menu-item">
+                <a href="https://kci.id/hubungi-kami">Kontak Kami</a>
+            </li>
+                    <li class="menu-item">
+                <a href="https://kci.id/karir">Karir</a>
+            </li>
+        
+    </ul>
+    <div class="shop icon icon-bag"></div>
+</div>
+	</div>
+</div></header>
+
+<div class="floating-socmed">
+
+    <div class="inner-floating-socmed">
+
+        <ul class="p-0">
+
+            <li>
+                <a href="https://twitter.com/CommuterLine?t=PtKhzjonrLnLzxH_0LQt_g&amp;s=08">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/commuterline/?igshid=YmMyMTA2M2Y%3D">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.facebook.com/237948376252347/posts/pfbid02BhSFirETWVaiZJpJfYRwZvnLeQW4t2t2RbWrQXJxojW1DrsKVV9iBQ4ShXfLgjbVl/?sfnsn=wiwspmo">
+                    <i class="fab fa-facebook"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://youtube.com/channel/UC4ii_NtnbhAmltDNutIQOhg">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+        
+        
+    
+    <div class="container-fluid global-banner pos-relative">
+	<div class="row">
+		<div class="col-md-12 p-0">
+			<img src="/app/sam/assets/krl_trip/689ad58f4f3a3ba60c5992d261f9532e.png" alt="" class="showDesk"> 
+			<img src="/app/sam/assets/krl_trip/689ad58f4f3a3ba60c5992d261f9532e.png" alt="" class="showMob" style="width: 620; height: 240px"> 
+			<div class="container-fluid caption-banner">
+	<div class="row">
+		<div class="col-md-12">
+					<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+							<h1>Peta Rute</h1>
+						</div>
+	</div>
+</div>				</div>
+	</div>
+</div>		</div>
+	</div>
+</div>    
+
+    
+    <div class="container-fluid bg-grey-global">
+	<div class="row">
+		<div class="col-md-12 p-0">
+
+            
+            <div class="container">
+	<div class="row">
+		<div class="col-md-12">
+                    <nav class="nav nav-pills nav-fill nav-capsule-global">
+                        
+                                                    <a class="nav-item nav-link "
+                               href="https://kci.id/perjalanan-krl/jadwal-kereta">Jadwal Kereta
+                            </a> 
+                                                    <a class="nav-item nav-link "
+                               href="https://kci.id/perjalanan-krl/info-tarif">Info Tarif Perjalanan
+                            </a> 
+                                                    <a class="nav-item nav-link active"
+                               href="https://kci.id/perjalanan-krl/peta-rute">Peta Rute
+                            </a> 
+                                            </nav>
+                </div>
+	</div>
+</div>            
+
+            <div class="container">
+	<div class="row">
+		<div class="col-md-12">
+                    <div class="ajax-response">
+
+                    </div>
+                </div>
+	</div>
+</div>
+
+        </div>
+
+        <div class="container-fluid apps-secondary">
+	<div class="row">
+		<div class="container-fluid full-bg title-and-image" style="background-image: url('https://kci.id/img/ac5fea5836c960ae00ed245229e59ab2.png');">
+	<div class="row">
+		<div class="col-md-12">
+        <div class="container">
+	<div class="row">
+		<div class="col-md-12 pos-relative">
+                <span class="section-name red">Naik Commuterline lebih mudah</span>
+                <h2>Download C-Access Sekarang!</h2>
+
+                <img src="/app/sam/assets/krl_trip/b5231dd918c324f6f14867d75b119f6e.png" class="img-desktop" alt="">
+
+                                    <img src="" class="w-100 img-mobile" alt="">
+                
+
+
+                                    <div class="download-button">
+                        <p> </p>
+                        
+                        <a href="https://play.google.com/store/apps/details?id=com.kci.access"><img
+                                src="/app/sam/assets/images/ac70ce07ac0616502090352789b6f44b.png" alt=""></a>
+                    </div>
+                
+
+
+            </div>
+	</div>
+</div>    </div>
+	</div>
+</div>
+	</div>
+</div>
+	</div>
+</div>    
+
+
+        
+        <footer class="footer-kci text-left">
+    <div class="container-fluid">
+        <div class="container inner-footer-kci">
+	<div class="row">
+		<a href="#top" class="back-to-top-link" aria-label="Scroll to Top"><i class="fas fa-angle-up"></i></a>
+            <div class="col-md-3 footer-logo">
+                <img src="https://kci.id/img/logo-white.png"alt="">
+                <div class="social-media">
+                    <a href="https://twitter.com/CommuterLine?t=PtKhzjonrLnLzxH_0LQt_g&amp;s=08">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/commuterline/?igshid=YmMyMTA2M2Y%3D">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/237948376252347/posts/pfbid02BhSFirETWVaiZJpJfYRwZvnLeQW4t2t2RbWrQXJxojW1DrsKVV9iBQ4ShXfLgjbVl/?sfnsn=wiwspmo">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://youtube.com/channel/UC4ii_NtnbhAmltDNutIQOhg">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-5 link-footer">
+            <div class="list-icon">
+	<i class="fas fa-map-marker-alt"></i>
+			<span>JL. Ir. Juanda I B (Stasiun Kereta Api Juanda) No. 8-10, Desa/Kelurahan Kebon Kelapa, Kec. Gambir, Kota Adm. Jakarta Pusat, Provinsi DKI Jakarta,
+Kode Pos: 10120</span>
+	
+</div>
+            <div class="list-icon">
+	<i class="fas fa-phone-alt"></i>
+			<span>021-3453535</span>
+	
+</div>
+            <div class="list-icon">
+	<i class="fas fa-envelope"></i>
+			<span>kaicommuter@kci.id</span>
+	
+</div>
+            <div class="list-icon">
+	<i class="fas fa-comment-dots"></i>
+			<span>121/021-121</span>
+	
+</div>
+            <div class="list-icon">
+	<i class="fas fa-envelope"></i>
+			<span>E-mail Layanan Pelanggan : commuter.care@krl.co.id</span>
+	
+</div>
+    </div>
+
+            <div class="col-md-2 link-footer">
+    <ul>
+                    <li><a href="https://kci.id/tentang-kami/informasi-umum">Tentang Kami</a></li>
+                    <li><a href="https://kci.id/layanan/info-pelanggan">Layanan</a></li>
+                    <li><a href="https://kci.id/kmt/informasi-kmt">KMT</a></li>
+                    <li><a href="https://kci.id/perjalanan-krl/jadwal-kereta">Info Perjalanan</a></li>
+                    <li><a href="https://kci.id/pengadaan">Pengadaan</a></li>
+            </ul>
+</div>
+            <div class="col-md-2 link-footer">
+    <ul>
+                    <li><a href="https://kci.id/informasi-publik/berita">Informasi Publik</a></li>
+                    <li><a href="https://kci.id/gcg">GCG</a></li>
+                    <li><a href="https://kci.id/space-iklan">Space Iklan</a></li>
+                    <li><a href="https://kci.id/c-merch">C-Merch</a></li>
+                    <li><a href="https://kci.id/karir">Karir</a></li>
+                    <li><a href="https://kci.id/hubungi-kami">Kontak Kami</a></li>
+            </ul>
+</div>
+
+            <div class="col-md-7 p-0">
+                <div class="copyright-kci text-left">
+                    <p>Copyright © 2022 - 2026 PT. Kereta Commuter Indonesia | All Rights Reserved</p>
+                </div>
+            </div>
+            <div class="col-md-5 apps-dl-mobile p-0 text-right">
+                <p>Unduh Applikasi</p>
+                <a href="https://play.google.com/store/apps/details?id=com.kci.access">
+                    <img src="/app/sam/assets/images/c4f664ff2e36e9e9074be59d976ccc0f.png" alt="">
+                </a>
+                
+            </div>
+	</div>
+</div>
+    </div>
+</footer>
+
+        
+    </div>
+
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha512-TawcSfIUO8yB0Or8FXEDW2X32Q71ZGAOYVVwe7n3EsoyQb+iMZbodI6RnQ4JDcItNoO3TmwP7/bD89vhQA4zTA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script src="https://kci.id/js/kci.js"></script>
+
+    
+            <script type="text/javascript">
+
+            $(document).ready(function(){
+
+                global();
+
+            });
+
+        </script>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5V1YVMV1B3"></script>
+        <script>
+  		window.dataLayer = window.dataLayer || [];
+  		function gtag(){dataLayer.push(arguments);}
+  		gtag('js', new Date());
+  		gtag('config', 'G-5V1YVMV1B3');
+	</script>
+    
+        <script type="text/javascript">
+        $(document).ready(function () {
+
+            $.ajax({
+                url: "https://kci.id/api/krl/routemap",
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // alert(data);
+
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("<img src='" + data.data[i].permalink + "' alt='' class='w-100 mb-5' />").appendTo($('.ajax-response'));
+                    }
+
+
+                },
+
+            });
+
+
+        });
+
+    </script>
+
+</body>
+</html>
