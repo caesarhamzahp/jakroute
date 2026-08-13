@@ -1,0 +1,43 @@
+{
+  "agency_id": "LRT",
+  "agency_name": "LRT Jabodebek",
+  "fare_base": 5000,
+  "fare_per_km": 700,
+  "max_fare": 24000,
+  "lines": [
+    {
+      "line_id": "LRT-CIB",
+      "line_name": "Lintas Cibubur",
+      "color": "#FF6B00",
+      "stations": [
+        {"id": "LRT-DKA", "name": "Dukuh Atas", "lat": -6.2006, "lon": 106.8231},
+        {"id": "LRT-STB", "name": "Setiabudi", "lat": -6.2072, "lon": 106.8297},
+        {"id": "LRT-RSN", "name": "Rasuna Said", "lat": -6.2117, "lon": 106.8358},
+        {"id": "LRT-KNG", "name": "Kuningan", "lat": -6.2200, "lon": 106.8317},
+        {"id": "LRT-CWG", "name": "Cawang", "lat": -6.2431, "lon": 106.8614},
+        {"id": "LRT-CKK", "name": "Cikoko", "lat": -6.2434, "lon": 106.8571},
+        {"id": "LRT-PCR", "name": "Pancoran Bank BJB", "lat": -6.2421, "lon": 106.8385},
+        {"id": "LRT-CLP", "name": "Ciliwung", "lat": -6.2589, "lon": 106.8628},
+        {"id": "LRT-CRC", "name": "Ciracas", "lat": -6.3237, "lon": 106.8867},
+        {"id": "LRT-TMI", "name": "TMII", "lat": -6.2928, "lon": 106.8806},
+        {"id": "LRT-KRM", "name": "Kampung Rambutan", "lat": -6.3095, "lon": 106.8843},
+        {"id": "LRT-HJM", "name": "Harjamukti", "lat": -6.3814, "lon": 106.8792}
+      ]
+    },
+    {
+      "line_id": "LRT-BKS",
+      "line_name": "Lintas Bekasi",
+      "color": "#FF6B00",
+      "stations": [
+        {"id": "LRT-DKA", "name": "Dukuh Atas", "lat": -6.2006, "lon": 106.8231},
+        {"id": "LRT-STB", "name": "Setiabudi", "lat": -6.2072, "lon": 106.8297},
+        {"id": "LRT-RSN", "name": "Rasuna Said", "lat": -6.2117, "lon": 106.8358},
+        {"id": "LRT-KNG", "name": "Kuningan", "lat": -6.2200, "lon": 106.8317},
+        {"id": "LRT-CWG", "name": "Cawang", "lat": -6.2431, "lon": 106.8614},
+        {"id": "LRT-CKK", "name": "Cikoko", "lat": -6.2434, "lon": 106.8571},
+        {"id": "LRT-HLM", "name": "Halim", "lat": -6.2619, "lon": 106.8906},
+        {"id": "LRT-JTM", "name": "Jati Mulya", "lat": -6.2797, "lon": 107.0011}
+      ]
+    }
+  ]
+}

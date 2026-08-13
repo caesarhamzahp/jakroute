@@ -1,0 +1,29 @@
+{
+  "agency_id": "MRT",
+  "agency_name": "MRT Jakarta",
+  "fare_base": 4000,
+  "fare_per_station": 1000,
+  "max_fare": 14000,
+  "lines": [
+    {
+      "line_id": "MRT-NS",
+      "line_name": "Jalur Utara-Selatan (North-South Line)",
+      "color": "#E4022D",
+      "stations": [
+        {"id": "MRT-LBB", "name": "Lebak Bulus Grab", "lat": -6.2894, "lon": 106.7742},
+        {"id": "MRT-FTM", "name": "Fatmawati Indomaret", "lat": -6.2931, "lon": 106.7947},
+        {"id": "MRT-CPR", "name": "Cipete Raya", "lat": -6.2806, "lon": 106.8011},
+        {"id": "MRT-HJN", "name": "Haji Nawi", "lat": -6.2694, "lon": 106.8006},
+        {"id": "MRT-BLA", "name": "Blok A", "lat": -6.2578, "lon": 106.8000},
+        {"id": "MRT-BLM", "name": "Blok M BCA", "lat": -6.2439, "lon": 106.7994},
+        {"id": "MRT-SSM", "name": "Sisingamangaraja", "lat": -6.2367, "lon": 106.8011},
+        {"id": "MRT-SNY", "name": "Senayan", "lat": -6.2258, "lon": 106.8022},
+        {"id": "MRT-IST", "name": "Istora Mandiri", "lat": -6.2214, "lon": 106.8072},
+        {"id": "MRT-BNH", "name": "Bendungan Hilir", "lat": -6.2136, "lon": 106.8158},
+        {"id": "MRT-STB", "name": "Setiabudi Astra", "lat": -6.2089, "lon": 106.8228},
+        {"id": "MRT-DKA", "name": "Dukuh Atas BNI", "lat": -6.2006, "lon": 106.8231},
+        {"id": "MRT-BHI", "name": "Bundaran HI", "lat": -6.1928, "lon": 106.8228}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "agency_id": "KRL",
+  "agency_name": "KRL Commuterline",
+  "fare_base": 3000,
+  "fare_per_station": 1000,
+  "max_fare": 15000,
+  "lines": [
+    {
+      "line_id": "KRL-RED",
+      "line_name": "Lintas Cikarang",
+      "color": "#FF0000",
+      "stations": [
+        {"id": "KRL-JK", "name": "Jakarta Kota", "lat": -6.1375, "lon": 106.8136},
+        {"id": "KRL-JAY", "name": "Jayakarta", "lat": -6.1403, "lon": 106.8225},
+        {"id": "KRL-MGB", "name": "Mangga Besar", "lat": -6.1467, "lon": 106.8275},
+        {"id": "KRL-SWB", "name": "Sawah Besar", "lat": -6.1549, "lon": 106.8314},
+        {"id": "KRL-JUA", "name": "Juanda", "lat": -6.1617, "lon": 106.8314},
+        {"id": "KRL-GMB", "name": "Gambir", "lat": -6.1763, "lon": 106.8306},
+        {"id": "KRL-GND", "name": "Gondangdia", "lat": -6.1864, "lon": 106.8306},
+        {"id": "KRL-CKN", "name": "Cikini", "lat": -6.1961, "lon": 106.8400},
+        {"id": "KRL-MRI", "name": "Manggarai", "lat": -6.2097, "lon": 106.8503},
+        {"id": "KRL-MTR", "name": "Matraman", "lat": -6.2103, "lon": 106.8628},
+        {"id": "KRL-JNG", "name": "Jatinegara", "lat": -6.2150, "lon": 106.8703},
+        {"id": "KRL-KLD", "name": "Klender", "lat": -6.2197, "lon": 106.9003},
+        {"id": "KRL-BRN", "name": "Buaran", "lat": -6.2181, "lon": 106.9197},
+        {"id": "KRL-KLB", "name": "Klender Baru", "lat": -6.2172, "lon": 106.9372},
+        {"id": "KRL-CTR", "name": "Cakung", "lat": -6.2044, "lon": 106.9553},
+        {"id": "KRL-RWB", "name": "Rawabebek", "lat": -6.2003, "lon": 106.9711},
+        {"id": "KRL-KMT", "name": "Kranji", "lat": -6.2256, "lon": 106.9947},
+        {"id": "KRL-BKS", "name": "Bekasi", "lat": -6.2417, "lon": 106.9922},
+        {"id": "KRL-TBN", "name": "Tambun", "lat": -6.2458, "lon": 107.0428},
+        {"id": "KRL-CBI", "name": "Cibitung", "lat": -6.2456, "lon": 107.0756},
+        {"id": "KRL-CKR", "name": "Cikarang", "lat": -6.2564, "lon": 107.1431}
+      ]
+    },
+    {
+      "line_id": "KRL-GREEN",
+      "line_name": "Lintas Bogor",
+      "color": "#00AA00",
+      "stations": [
+        {"id": "KRL-JK", "name": "Jakarta Kota", "lat": -6.1375, "lon": 106.8136},
+        {"id": "KRL-JAY", "name": "Jayakarta", "lat": -6.1403, "lon": 106.8225},
+        {"id": "KRL-MGB", "name": "Mangga Besar", "lat": -6.1467, "lon": 106.8275},
+        {"id": "KRL-SWB", "name": "Sawah Besar", "lat": -6.1549, "lon": 106.8314},
+        {"id": "KRL-JUA", "name": "Juanda", "lat": -6.1617, "lon": 106.8314},
+        {"id": "KRL-GMB", "name": "Gambir", "lat": -6.1763, "lon": 106.8306},
+        {"id": "KRL-GND", "name": "Gondangdia", "lat": -6.1864, "lon": 106.8306},
+        {"id": "KRL-CKN", "name": "Cikini", "lat": -6.1961, "lon": 106.8400},
+        {"id": "KRL-MRI", "name": "Manggarai", "lat": -6.2097, "lon": 106.8503},
+        {"id": "KRL-TSO", "name": "Tebet", "lat": -6.2258, "lon": 106.8506},
+        {"id": "KRL-CWG", "name": "Cawang", "lat": -6.2431, "lon": 106.8614},
+        {"id": "KRL-DRN", "name": "Duren Kalibata", "lat": -6.2597, "lon": 106.8556},
+        {"id": "KRL-POK", "name": "Pasar Minggu Baru", "lat": -6.2797, "lon": 106.8453},
+        {"id": "KRL-PSM", "name": "Pasar Minggu", "lat": -6.2878, "lon": 106.8442},
+        {"id": "KRL-TMB", "name": "Tanjung Barat", "lat": -6.3133, "lon": 106.8417},
+        {"id": "KRL-LNT", "name": "Lenteng Agung", "lat": -6.3317, "lon": 106.8342},
+        {"id": "KRL-UJG", "name": "Universitas Pancasila", "lat": -6.3431, "lon": 106.8297},
+        {"id": "KRL-UIN", "name": "Universitas Indonesia", "lat": -6.3608, "lon": 106.8317},
+        {"id": "KRL-DPK", "name": "Depok Baru", "lat": -6.3789, "lon": 106.8225},
+        {"id": "KRL-DPB", "name": "Depok", "lat": -6.3897, "lon": 106.8197},
+        {"id": "KRL-POG", "name": "Pondok Cina", "lat": -6.3711, "lon": 106.8317},
+        {"id": "KRL-BOO", "name": "Bogor", "lat": -6.5956, "lon": 106.7892}
+      ]
+    },
+    {
+      "line_id": "KRL-BLUE",
+      "line_name": "Lintas Tangerang",
+      "color": "#0000FF",
+      "stations": [
+        {"id": "KRL-DRI", "name": "Duri", "lat": -6.1669, "lon": 106.7936},
+        {"id": "KRL-KPB", "name": "Kampung Bandan", "lat": -6.1406, "lon": 106.8069},
+        {"id": "KRL-AKK", "name": "Angke", "lat": -6.1522, "lon": 106.7847},
+        {"id": "KRL-TNB", "name": "Tanah Abang", "lat": -6.1842, "lon": 106.8128},
+        {"id": "KRL-PPT", "name": "Palmerah", "lat": -6.2119, "lon": 106.7975},
+        {"id": "KRL-TNG", "name": "Tangerang", "lat": -6.1783, "lon": 106.6317}
+      ]
+    },
+    {
+      "line_id": "KRL-YELLOW",
+      "line_name": "Lintas Rangkasbitung",
+      "color": "#FFAA00",
+      "stations": [
+        {"id": "KRL-TNB", "name": "Tanah Abang", "lat": -6.1842, "lon": 106.8128},
+        {"id": "KRL-PPT", "name": "Palmerah", "lat": -6.2119, "lon": 106.7975},
+        {"id": "KRL-SPN", "name": "Serpong", "lat": -6.3197, "lon": 106.6642},
+        {"id": "KRL-RKB", "name": "Rangkasbitung", "lat": -6.3597, "lon": 106.2508}
+      ]
+    }
+  ]
+}
