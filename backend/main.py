@@ -104,7 +104,6 @@ def get_nearest(lat: float, lon: float):
 
 @app.get("/api/geocode")
 async def geocode(q: str):
-    """Konversi nama tempat/jalan/gedung ke koordinat pakai Nominatim"""
     async with httpx.AsyncClient() as client:
         try:
             res = await client.get(
@@ -114,34 +113,39 @@ async def geocode(q: str):
                     "format": "json",
                     "limit": 5,
                     "countrycodes": "id",
-                    "viewbox": "106.6,−6.4,107.0,−6.0",
-                    "bounded": 1
                 },
                 headers={"User-Agent": "JakRoute/1.0"},
                 timeout=10
             )
             results = res.json()
-            if not results:
-                raise HTTPException(status_code=404, detail=f"Lokasi '{q}' tidak ditemukan")
+            if not results or not isinstance(results, list):
+                raise HTTPException(status_code=404, detail=f"Lokasi tidak ditemukan")
             places = []
             for r in results:
-                lat = float(r["lat"])
-                lon = float(r["lon"])
-                nearest_id, dist = find_nearest_node(lat, lon)
-                nearest = G.nodes[nearest_id]
-                places.append({
-                    "place_name": r["display_name"].split(",")[0],
-                    "full_address": r["display_name"],
-                    "lat": lat,
-                    "lon": lon,
-                    "nearest_stop": {
-                        "stop_id": nearest_id,
-                        "stop_name": nearest["name"],
-                        "agency": nearest.get("agency"),
-                        "distance_m": round(dist)
-                    }
-                })
+                try:
+                    lat = float(r["lat"])
+                    lon = float(r["lon"])
+                    nearest_id, dist = find_nearest_node(lat, lon)
+                    nearest = G.nodes[nearest_id]
+                    places.append({
+                        "place_name": r.get("display_name", "").split(",")[0],
+                        "full_address": r.get("display_name", ""),
+                        "lat": lat,
+                        "lon": lon,
+                        "nearest_stop": {
+                            "stop_id": nearest_id,
+                            "stop_name": nearest["name"],
+                            "agency": nearest.get("agency", "TJ"),
+                            "distance_m": round(dist)
+                        }
+                    })
+                except Exception:
+                    continue
+            if not places:
+                raise HTTPException(status_code=404, detail=f"Lokasi tidak ditemukan")
             return {"results": places}
+        except httpx.TimeoutException:
+            raise HTTPException(status_code=504, detail="Timeout saat geocoding")
         except httpx.TimeoutException:
             raise HTTPException(status_code=504, detail="Timeout saat geocoding")
 
@@ -208,3 +212,4 @@ def get_route_by_coords(from_lat: float, from_lon: float, to_lat: float, to_lon:
     from_node = G.nodes[from_id]
     to_node = G.nodes[to_id]
     return get_route(from_node["name"], to_node["name"])
+

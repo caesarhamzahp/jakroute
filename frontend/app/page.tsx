@@ -177,13 +177,41 @@ export default function Home() {
   };
 
   const searchRoute = async () => {
-    const fromQuery = fromStop?.stop_name || from;
-    const toQuery = toStop?.stop_name || to;
-    if (!fromQuery || !toQuery) return;
     setLoading(true);
     setError("");
     setResult(null);
     try {
+      let fromQuery = fromStop?.stop_name || "";
+      let toQuery = toStop?.stop_name || "";
+
+      if (!fromQuery && from) {
+        const res = await fetch(`${API}/api/geocode?q=${encodeURIComponent(from)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.results?.length > 0) {
+            const nearest = data.results[0].nearest_stop;
+            setFromStop(nearest);
+            fromQuery = nearest.stop_name;
+          }
+        }
+        if (!fromQuery) { setError(`Lokasi "${from}" tidak ditemukan`); setLoading(false); return; }
+      }
+
+      if (!toQuery && to) {
+        const res = await fetch(`${API}/api/geocode?q=${encodeURIComponent(to)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.results?.length > 0) {
+            const nearest = data.results[0].nearest_stop;
+            setToStop(nearest);
+            toQuery = nearest.stop_name;
+          }
+        }
+        if (!toQuery) { setError(`Lokasi "${to}" tidak ditemukan`); setLoading(false); return; }
+      }
+
+      if (!fromQuery || !toQuery) { setLoading(false); return; }
+
       const res = await fetch(`${API}/api/route?from_stop=${encodeURIComponent(fromQuery)}&to_stop=${encodeURIComponent(toQuery)}`);
       if (!res.ok) { const e = await res.json(); setError(e.detail); return; }
       setResult(await res.json());
@@ -324,3 +352,4 @@ export default function Home() {
     </main>
   );
 }
+
