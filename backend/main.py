@@ -1,4 +1,5 @@
 ﻿import json
+import httpx
 from math import radians, sin, cos, sqrt, atan2
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,7 +24,6 @@ def haversine(lat1, lon1, lat2, lon2):
     a = sin(dphi/2)**2 + cos(phi1)*cos(phi2)*sin(dlambda/2)**2
     return R * 2 * atan2(sqrt(a), sqrt(1-a))
 
-# Build graph
 print("Loading GTFS Transjakarta...")
 GTFS_PATH = r"C:\Users\LENOVO\jakroute\data\transjakarta\transitland"
 feed = gk.read_feed(GTFS_PATH, dist_units="km")
@@ -74,12 +74,10 @@ load_json_transit(f"{BASE_DATA}\\krl\\stations.json", "KRL")
 
 print(f"✅ Total graph: {G.number_of_nodes()} node, {G.number_of_edges()} edge")
 
-def find_nearest_node(lat, lon, agency=None):
+def find_nearest_node(lat, lon):
     min_dist = float("inf")
     nearest = None
     for node_id, data in G.nodes(data=True):
-        if agency and data.get("agency") != agency:
-            continue
         d = haversine(lat, lon, data["lat"], data["lon"])
         if d < min_dist:
             min_dist = d
@@ -103,6 +101,49 @@ def get_nearest(lat: float, lon: float):
     nearest_id, dist = find_nearest_node(lat, lon)
     node = G.nodes[nearest_id]
     return {"stop_id": nearest_id, "stop_name": node["name"], "lat": node["lat"], "lon": node["lon"], "agency": node.get("agency"), "distance_m": round(dist)}
+
+@app.get("/api/geocode")
+async def geocode(q: str):
+    """Konversi nama tempat/jalan/gedung ke koordinat pakai Nominatim"""
+    async with httpx.AsyncClient() as client:
+        try:
+            res = await client.get(
+                "https://nominatim.openstreetmap.org/search",
+                params={
+                    "q": f"{q}, Jakarta, Indonesia",
+                    "format": "json",
+                    "limit": 5,
+                    "countrycodes": "id",
+                    "viewbox": "106.6,−6.4,107.0,−6.0",
+                    "bounded": 1
+                },
+                headers={"User-Agent": "JakRoute/1.0"},
+                timeout=10
+            )
+            results = res.json()
+            if not results:
+                raise HTTPException(status_code=404, detail=f"Lokasi '{q}' tidak ditemukan")
+            places = []
+            for r in results:
+                lat = float(r["lat"])
+                lon = float(r["lon"])
+                nearest_id, dist = find_nearest_node(lat, lon)
+                nearest = G.nodes[nearest_id]
+                places.append({
+                    "place_name": r["display_name"].split(",")[0],
+                    "full_address": r["display_name"],
+                    "lat": lat,
+                    "lon": lon,
+                    "nearest_stop": {
+                        "stop_id": nearest_id,
+                        "stop_name": nearest["name"],
+                        "agency": nearest.get("agency"),
+                        "distance_m": round(dist)
+                    }
+                })
+            return {"results": places}
+        except httpx.TimeoutException:
+            raise HTTPException(status_code=504, detail="Timeout saat geocoding")
 
 @app.get("/api/route")
 def get_route(from_stop: str, to_stop: str):
@@ -162,8 +203,8 @@ def get_route(from_stop: str, to_stop: str):
 
 @app.get("/api/route/coords")
 def get_route_by_coords(from_lat: float, from_lon: float, to_lat: float, to_lon: float):
-    from_id, from_dist = find_nearest_node(from_lat, from_lon)
-    to_id, to_dist = find_nearest_node(to_lat, to_lon)
+    from_id, _ = find_nearest_node(from_lat, from_lon)
+    to_id, _ = find_nearest_node(to_lat, to_lon)
     from_node = G.nodes[from_id]
     to_node = G.nodes[to_id]
     return get_route(from_node["name"], to_node["name"])
