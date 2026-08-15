@@ -1,0 +1,274 @@
+[
+  {
+    "from": "MRT-DKA",
+    "to": "LRT-DKA",
+    "weight": 2.46,
+    "distance_m": 50,
+    "description": "Dukuh Atas MRT-LRT",
+    "type": "transfer"
+  },
+  {
+    "from": "LRT-DKA",
+    "to": "MRT-DKA",
+    "weight": 2.46,
+    "distance_m": 50,
+    "description": "Dukuh Atas MRT-LRT",
+    "type": "transfer"
+  },
+  {
+    "from": "MRT-DKA",
+    "to": "B02503P",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Dukuh Atas MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B02503P",
+    "to": "MRT-DKA",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Dukuh Atas MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "LRT-DKA",
+    "to": "B02503P",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Dukuh Atas LRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B02503P",
+    "to": "LRT-DKA",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Dukuh Atas LRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "MRT-BLM",
+    "to": "P00017",
+    "weight": 2.93,
+    "distance_m": 100,
+    "description": "Blok M MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "P00017",
+    "to": "MRT-BLM",
+    "weight": 2.93,
+    "distance_m": 100,
+    "description": "Blok M MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "MRT-BLM",
+    "to": "B08540P",
+    "weight": 3.39,
+    "distance_m": 150,
+    "description": "Blok M MRT-TJ Jalur",
+    "type": "transfer"
+  },
+  {
+    "from": "B08540P",
+    "to": "MRT-BLM",
+    "weight": 3.39,
+    "distance_m": 150,
+    "description": "Blok M MRT-TJ Jalur",
+    "type": "transfer"
+  },
+  {
+    "from": "LRT-KRM",
+    "to": "B07106P",
+    "weight": 2.93,
+    "distance_m": 100,
+    "description": "Kampung Rambutan LRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B07106P",
+    "to": "LRT-KRM",
+    "weight": 2.93,
+    "distance_m": 100,
+    "description": "Kampung Rambutan LRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "LRT-KRM",
+    "to": "H00096P",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Kampung Rambutan LRT-TJ 2",
+    "type": "transfer"
+  },
+  {
+    "from": "H00096P",
+    "to": "LRT-KRM",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Kampung Rambutan LRT-TJ 2",
+    "type": "transfer"
+  },
+  {
+    "from": "LRT-CWG",
+    "to": "B02431P",
+    "weight": 5.7,
+    "distance_m": 400,
+    "description": "Cawang LRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B02431P",
+    "to": "LRT-CWG",
+    "weight": 5.7,
+    "distance_m": 400,
+    "description": "Cawang LRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "KRL-MRI",
+    "to": "B02348P",
+    "weight": 4.78,
+    "distance_m": 300,
+    "description": "Manggarai KRL-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B02348P",
+    "to": "KRL-MRI",
+    "weight": 4.78,
+    "distance_m": 300,
+    "description": "Manggarai KRL-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "KRL-TNB",
+    "to": "B01372P",
+    "weight": 5.7,
+    "distance_m": 400,
+    "description": "Tanah Abang KRL-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B01372P",
+    "to": "KRL-TNB",
+    "weight": 5.7,
+    "distance_m": 400,
+    "description": "Tanah Abang KRL-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "KRL-JUA",
+    "to": "B00878P",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Juanda KRL-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B00878P",
+    "to": "KRL-JUA",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Juanda KRL-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "KRL-JK",
+    "to": "B00001P",
+    "weight": 4.78,
+    "distance_m": 300,
+    "description": "Kota KRL-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B00001P",
+    "to": "KRL-JK",
+    "weight": 4.78,
+    "distance_m": 300,
+    "description": "Kota KRL-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "MRT-SNY",
+    "to": "G00015",
+    "weight": 4.78,
+    "distance_m": 300,
+    "description": "Senayan MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "G00015",
+    "to": "MRT-SNY",
+    "weight": 4.78,
+    "distance_m": 300,
+    "description": "Senayan MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "MRT-IST",
+    "to": "B00589P",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Istora MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B00589P",
+    "to": "MRT-IST",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Istora MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "MRT-BHI",
+    "to": "B00313P",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Bundaran HI MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B00313P",
+    "to": "MRT-BHI",
+    "weight": 3.85,
+    "distance_m": 200,
+    "description": "Bundaran HI MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "MRT-LBB",
+    "to": "B05566P",
+    "weight": 4.78,
+    "distance_m": 300,
+    "description": "Lebak Bulus MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B05566P",
+    "to": "MRT-LBB",
+    "weight": 4.78,
+    "distance_m": 300,
+    "description": "Lebak Bulus MRT-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "KRL-JNG",
+    "to": "B01234P",
+    "weight": 5.24,
+    "distance_m": 350,
+    "description": "Jatinegara KRL-TJ",
+    "type": "transfer"
+  },
+  {
+    "from": "B01234P",
+    "to": "KRL-JNG",
+    "weight": 5.24,
+    "distance_m": 350,
+    "description": "Jatinegara KRL-TJ",
+    "type": "transfer"
+  }
+]

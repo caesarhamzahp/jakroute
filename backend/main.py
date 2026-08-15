@@ -74,6 +74,33 @@ load_json_transit(f"{BASE_DATA}\\krl\\stations.json", "KRL")
 
 print(f"✅ Total graph: {G.number_of_nodes()} node, {G.number_of_edges()} edge")
 
+# Load transfer edges
+print("Loading transfer edges...")
+try:
+    with open(r"C:\Users\LENOVO\jakroute\data\transfer_edges.json", "r") as f:
+        transfer_edges = json.load(f)
+    
+    added = 0
+    skipped = 0
+    for edge in transfer_edges:
+        if edge["from"] in G and edge["to"] in G:
+            G.add_edge(
+                edge["from"], edge["to"],
+                route_id="TRANSFER",
+                route_name="Transfer (jalan kaki)",
+                agency="TRANSFER",
+                weight=edge["weight"],
+                distance_m=edge["distance_m"],
+                type="transfer"
+            )
+            added += 1
+        else:
+            skipped += 1
+    
+    print(f"✅ Transfer edges: {added} ditambah, {skipped} node tidak ditemukan")
+except Exception as e:
+    print(f"❌ Gagal load transfer edges: {e}")
+
 def find_nearest_node(lat, lon):
     min_dist = float("inf")
     nearest = None
@@ -149,6 +176,15 @@ async def geocode(q: str):
         except httpx.TimeoutException:
             raise HTTPException(status_code=504, detail="Timeout saat geocoding")
 
+def get_closest_nodes(node_list, ref_lat, ref_lon, top_n=2):
+    """Ambil N node terdekat secara geografis"""
+    scored = []
+    for nid, data in node_list:
+        d = haversine(ref_lat, ref_lon, data["lat"], data["lon"])
+        scored.append((d, nid, data))
+    scored.sort(key=lambda x: x[0])
+    return [(nid, data) for _, nid, data in scored[:top_n]]
+
 @app.get("/api/route")
 def get_route(from_stop: str, to_stop: str):
     dari_nodes = [(nid, d) for nid, d in G.nodes(data=True) if from_stop.lower() in d["name"].lower()]
@@ -213,3 +249,177 @@ def get_route_by_coords(from_lat: float, from_lon: float, to_lat: float, to_lon:
     to_node = G.nodes[to_id]
     return get_route(from_node["name"], to_node["name"])
 
+
+@app.get("/api/suggest")
+async def suggest(q: str):
+    """Gabungkan suggestion halte + geocoding"""
+    results = []
+    
+    # 1. Cari dari database halte/stasiun kita
+    stop_matches = []
+    for node_id, data in G.nodes(data=True):
+        if q.lower() in data["name"].lower():
+            stop_matches.append({
+                "type": "stop",
+                "place_name": data["name"],
+                "full_address": f"{data.get('agency', 'TJ')} · Halte/Stasiun",
+                "lat": data["lat"],
+                "lon": data["lon"],
+                "nearest_stop": {
+                    "stop_id": node_id,
+                    "stop_name": data["name"],
+                    "agency": data.get("agency", "TJ"),
+                    "distance_m": 0
+                }
+            })
+    results.extend(stop_matches[:3])
+    
+    # 2. Geocoding dari Nominatim
+    if len(q) >= 3:
+        async with httpx.AsyncClient() as client:
+            try:
+                res = await client.get(
+                    "https://nominatim.openstreetmap.org/search",
+                    params={
+                        "q": f"{q}, Jakarta, Indonesia",
+                        "format": "json",
+                        "limit": 4,
+                        "countrycodes": "id",
+                    },
+                    headers={"User-Agent": "JakRoute/1.0"},
+                    timeout=8
+                )
+                geo_results = res.json()
+                if isinstance(geo_results, list):
+                    for r in geo_results:
+                        try:
+                            lat = float(r["lat"])
+                            lon = float(r["lon"])
+                            nearest_id, dist = find_nearest_node(lat, lon)
+                            nearest = G.nodes[nearest_id]
+                            results.append({
+                                "type": "place",
+                                "place_name": r.get("display_name", "").split(",")[0],
+                                "full_address": ", ".join(r.get("display_name", "").split(",")[1:3]),
+                                "lat": lat,
+                                "lon": lon,
+                                "nearest_stop": {
+                                    "stop_id": nearest_id,
+                                    "stop_name": nearest["name"],
+                                    "agency": nearest.get("agency", "TJ"),
+                                    "distance_m": round(dist)
+                                }
+                            })
+                        except Exception:
+                            continue
+            except Exception:
+                pass
+    
+    return {"results": results[:6]}
+
+def get_closest_nodes(node_list, ref_lat, ref_lon, top_n=2):
+    scored = []
+    for nid, data in node_list:
+        d = haversine(ref_lat, ref_lon, data["lat"], data["lon"])
+        scored.append((d, nid, data))
+    scored.sort(key=lambda x: x[0])
+    return [(nid, data) for _, nid, data in scored[:top_n]]
+
+@app.get("/api/route/options")
+def get_route_options(from_stop: str, to_stop: str):
+    dari_nodes = [(nid, d) for nid, d in G.nodes(data=True) if from_stop.lower() in d["name"].lower()]
+    ke_nodes = [(nid, d) for nid, d in G.nodes(data=True) if to_stop.lower() in d["name"].lower()]
+
+    if not dari_nodes:
+        raise HTTPException(status_code=404, detail=f"Halte tidak ditemukan: {from_stop}")
+    if not ke_nodes:
+        raise HTTPException(status_code=404, detail=f"Halte tidak ditemukan: {to_stop}")
+
+    # Ambil node terdekat secara geografis
+    dari_center_lat = sum(d["lat"] for _, d in dari_nodes) / len(dari_nodes)
+    dari_center_lon = sum(d["lon"] for _, d in dari_nodes) / len(dari_nodes)
+    ke_center_lat = sum(d["lat"] for _, d in ke_nodes) / len(ke_nodes)
+    ke_center_lon = sum(d["lon"] for _, d in ke_nodes) / len(ke_nodes)
+
+    best_dari = get_closest_nodes(dari_nodes, dari_center_lat, dari_center_lon, top_n=3)
+    best_ke = get_closest_nodes(ke_nodes, ke_center_lat, ke_center_lon, top_n=3)
+
+    FARE = {"TJ": 3500, "MRT": 14000, "LRT": 24000, "KRL": 3000, "TRANSFER": 0}
+    COST_WEIGHT = {"TJ": 1, "KRL": 1.2, "MRT": 5, "LRT": 6, "TRANSFER": 0.5}
+
+    def build_result(path, label, icon):
+        if not path: return None
+        steps = []
+        prev_route = None
+        agencies_used = set()
+        for i, stop_id in enumerate(path):
+            stop = G.nodes[stop_id]
+            agency = stop.get("agency", "TJ")
+            if agency != "TRANSFER":
+                agencies_used.add(agency)
+            step = {
+                "stop_id": stop_id,
+                "stop_name": stop["name"],
+                "lat": stop["lat"],
+                "lon": stop["lon"],
+                "agency": agency,
+                "type": "start" if i == 0 else "end" if i == len(path)-1 else "stop"
+            }
+            if i < len(path) - 1:
+                edge = G[stop_id][path[i+1]]
+                route_name = edge.get("route_name", "")
+                if route_name != prev_route:
+                    step["change_to"] = route_name
+                    step["change_agency"] = edge.get("agency", "TJ")
+                    prev_route = route_name
+            steps.append(step)
+
+        total_fare = sum(FARE.get(a, 3500) for a in agencies_used)
+        transfers = sum(1 for s in steps if s.get("change_to") and s.get("change_agency") != "TRANSFER") - 1
+
+        return {
+            "label": label,
+            "icon": icon,
+            "from": G.nodes[path[0]]["name"],
+            "to": G.nodes[path[-1]]["name"],
+            "total_stops": len(path),
+            "transfers": max(0, transfers),
+            "estimated_fare": total_fare,
+            "agencies": list(agencies_used),
+            "steps": steps
+        }
+
+    def find_path(weight_fn):
+        best_path = None
+        best_score = float("inf")
+        for dari_id, _ in best_dari:
+            for ke_id, _ in best_ke:
+                try:
+                    for u, v, d in G.edges(data=True):
+                        G[u][v]["_w"] = weight_fn(d)
+                    path = nx.shortest_path(G, dari_id, ke_id, weight="_w")
+                    score = sum(weight_fn(G[path[i]][path[i+1]]) for i in range(len(path)-1))
+                    if score < best_score:
+                        best_score = score
+                        best_path = path
+                except nx.NetworkXNoPath:
+                    continue
+        return best_path
+
+    fastest = find_path(lambda d: d.get("weight", 1))
+    cheapest = find_path(lambda d: COST_WEIGHT.get(d.get("agency", "TJ"), 1) * d.get("weight", 1))
+
+    results = []
+    seen = set()
+    for path, label, icon in [(fastest, "Tercepat", "⚡"), (cheapest, "Termurah", "💰")]:
+        if path:
+            key = tuple(path)
+            if key not in seen:
+                seen.add(key)
+                r = build_result(path, label, icon)
+                if r: results.append(r)
+
+    if not results:
+        raise HTTPException(status_code=404, detail="Tidak ada rute ditemukan")
+
+    return {"options": results}
