@@ -45,17 +45,23 @@ interface SuggestResult {
   nearest_stop: NearestStop;
 }
 
-const AGENCY_BADGE: Record<string, { bg: string; label: string }> = {
-  TJ:  { bg: "#1B2B6B", label: "Transjakarta" },
-  MRT: { bg: "#0070C0", label: "MRT Jakarta" },
-  LRT: { bg: "#E87722", label: "LRT Jabodebek" },
-  KRL: { bg: "#2D7D2F", label: "KRL Commuterline" },
+const AGENCY: Record<string, { bg: string; label: string }> = {
+  TJ:       { bg: "#1B2B6B", label: "Transjakarta" },
+  MRT:      { bg: "#0070C0", label: "MRT Jakarta" },
+  LRT:      { bg: "#E87722", label: "LRT Jabodebek" },
+  KRL:      { bg: "#2D7D2F", label: "KRL Commuterline" },
+  TRANSFER: { bg: "#64748B", label: "Jalan Kaki" },
 };
 
 const API = "http://localhost:8000";
 
 function formatRupiah(n: number) {
   return "Rp " + n.toLocaleString("id-ID");
+}
+
+function estimateTime(stops: number, transfers: number) {
+  const mins = stops * 2 + transfers * 5;
+  return mins < 60 ? `~${mins} menit` : `~${Math.floor(mins/60)}j ${mins%60}m`;
 }
 
 function LocationInput({ label, icon, value, onChange, onSelect, onGPS, gpsLoading, nearest }: {
@@ -105,10 +111,10 @@ function LocationInput({ label, icon, value, onChange, onSelect, onGPS, gpsLoadi
             style={{ borderColor: nearest ? "#1B2B6B" : "#E2E8F0", background: "#F8FAFC", color: "#1B2B6B" }}
             placeholder="Ketik nama tempat, jalan, halte..."
             value={value}
-            onChange={(e) => { onChange(e.target.value); }}
+            onChange={(e) => onChange(e.target.value)}
             onFocus={() => { if (suggestions.length > 0) setOpen(true); }}
           />
-          {searching && <div className="absolute right-3 top-3.5 text-xs animate-pulse" style={{ color: "#1B2B6B" }}>🔍</div>}
+          {searching && <div className="absolute right-3 top-3.5 animate-pulse" style={{ color: "#1B2B6B" }}>🔍</div>}
           {open && suggestions.length > 0 && (
             <div className="absolute z-50 w-full mt-1 rounded-xl shadow-2xl border overflow-hidden" style={{ background: "#fff", borderColor: "#E2E8F0" }}>
               {suggestions.map((s, i) => (
@@ -116,14 +122,14 @@ function LocationInput({ label, icon, value, onChange, onSelect, onGPS, gpsLoadi
                   style={{ borderColor: "#F1F5F9" }}
                   onMouseDown={() => { onSelect(s); setSuggestions([]); setOpen(false); }}>
                   <div className="flex items-center gap-2">
-                    <span className="text-base">{s.type === "stop" ? "🚏" : "📍"}</span>
+                    <span>{s.type === "stop" ? "🚏" : "📍"}</span>
                     <div className="flex-1 min-w-0">
                       <div className="font-semibold text-sm truncate" style={{ color: "#1B2B6B" }}>{s.place_name}</div>
-                      <div className="text-xs truncate mt-0.5" style={{ color: "#94A3B8" }}>{s.full_address}</div>
+                      <div className="text-xs truncate" style={{ color: "#94A3B8" }}>{s.full_address}</div>
                       {s.type === "place" && (
                         <div className="flex items-center gap-1 mt-1">
-                          <span className="px-1.5 py-0.5 rounded text-white text-xs" style={{ background: AGENCY_BADGE[s.nearest_stop.agency]?.bg }}>
-                            {AGENCY_BADGE[s.nearest_stop.agency]?.label}
+                          <span className="px-1.5 py-0.5 rounded text-white text-xs" style={{ background: AGENCY[s.nearest_stop.agency]?.bg }}>
+                            {AGENCY[s.nearest_stop.agency]?.label}
                           </span>
                           <span className="text-xs" style={{ color: "#94A3B8" }}>{s.nearest_stop.stop_name} · {s.nearest_stop.distance_m}m</span>
                         </div>
@@ -136,15 +142,15 @@ function LocationInput({ label, icon, value, onChange, onSelect, onGPS, gpsLoadi
           )}
         </div>
         <button onClick={onGPS} disabled={gpsLoading}
-          className="rounded-xl px-4 font-bold text-white text-lg transition-opacity hover:opacity-80"
+          className="rounded-xl px-4 text-white text-lg hover:opacity-80"
           style={{ background: "#1B2B6B", minWidth: 48 }}>
           {gpsLoading ? "⏳" : "📍"}
         </button>
       </div>
       {nearest && (
         <div className="mt-1.5 text-xs flex items-center gap-1.5" style={{ color: "#64748B" }}>
-          <span className="px-1.5 py-0.5 rounded text-white" style={{ background: AGENCY_BADGE[nearest.agency]?.bg, fontSize: 10 }}>
-            {AGENCY_BADGE[nearest.agency]?.label}
+          <span className="px-1.5 py-0.5 rounded text-white" style={{ background: AGENCY[nearest.agency]?.bg, fontSize: 10 }}>
+            {AGENCY[nearest.agency]?.label}
           </span>
           {nearest.stop_name}{nearest.distance_m > 0 && ` · ${nearest.distance_m}m`}
         </div>
@@ -155,36 +161,39 @@ function LocationInput({ label, icon, value, onChange, onSelect, onGPS, gpsLoadi
 
 function RouteTimeline({ steps }: { steps: Step[] }) {
   const groups: { agency: string; route: string; color: string; stops: Step[] }[] = [];
-  let currentGroup: { agency: string; route: string; color: string; stops: Step[] } | null = null;
+  let cur: { agency: string; route: string; color: string; stops: Step[] } | null = null;
 
   steps.forEach((step) => {
-    if (step.change_to || !currentGroup) {
-      if (currentGroup) groups.push(currentGroup);
-      currentGroup = {
+    if (step.change_to || !cur) {
+      if (cur) groups.push(cur);
+      cur = {
         agency: step.change_agency || step.agency,
         route: step.change_to || "",
-        color: AGENCY_BADGE[step.change_agency || step.agency]?.bg || "#1B2B6B",
+        color: AGENCY[step.change_agency || step.agency]?.bg || "#1B2B6B",
         stops: [step]
       };
     } else {
-      currentGroup.stops.push(step);
+      cur.stops.push(step);
     }
   });
-  if (currentGroup) groups.push(currentGroup);
+  if (cur) groups.push(cur);
 
   return (
-    <div className="px-5 py-4">
+    <div className="px-5 py-4 space-y-5">
       {groups.map((group, gi) => (
-        <div key={gi} className="mb-5 last:mb-0">
+        <div key={gi}>
           <div className="flex items-center gap-2 mb-2">
             <span className="px-3 py-1 rounded-full text-white text-xs font-bold" style={{ background: group.color }}>
-              {AGENCY_BADGE[group.agency]?.label}{group.route && ` · ${group.route}`}
+              {AGENCY[group.agency]?.label || group.agency}
+              {group.route && group.agency !== "TRANSFER" && ` · ${group.route}`}
             </span>
-            <span className="text-xs" style={{ color: "#94A3B8" }}>{group.stops.length} halte</span>
+            <span className="text-xs" style={{ color: "#94A3B8" }}>
+              {group.agency === "TRANSFER" ? "±5 menit jalan kaki" : `${group.stops.length} halte`}
+            </span>
           </div>
-          <div className="ml-2 border-l-2 pl-4" style={{ borderColor: group.color }}>
+          <div className="ml-2 border-l-2 pl-4 space-y-0.5" style={{ borderColor: group.color }}>
             {group.stops.map((stop, si) => (
-              <div key={si} className="flex items-center gap-2 py-1.5 relative">
+              <div key={si} className="flex items-center gap-2 py-1 relative">
                 <div className="absolute -left-5 w-3 h-3 rounded-full border-2" style={{
                   background: stop.type === "start" ? group.color : stop.type === "end" ? "#DC2626" : "#fff",
                   borderColor: stop.type === "end" ? "#DC2626" : group.color
@@ -210,7 +219,7 @@ export default function Home() {
   const [fromStop, setFromStop] = useState<NearestStop | null>(null);
   const [toStop, setToStop] = useState<NearestStop | null>(null);
   const [options, setOptions] = useState<RouteOption[]>([]);
-  const [selectedOption, setSelectedOption] = useState(0);
+  const [selected, setSelected] = useState(0);
   const [loading, setLoading] = useState(false);
   const [gpsLoading, setGpsLoading] = useState<"from" | "to" | null>(null);
   const [error, setError] = useState("");
@@ -218,8 +227,7 @@ export default function Home() {
 
   const getGPS = async (type: "from" | "to") => {
     if (!navigator.geolocation) { setError("Browser tidak support GPS"); return; }
-    setGpsLoading(type);
-    setError("");
+    setGpsLoading(type); setError("");
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const { latitude: lat, longitude: lon } = pos.coords;
@@ -245,16 +253,15 @@ export default function Home() {
       if (!res.ok) { const e = await res.json(); setError(e.detail); return; }
       const data = await res.json();
       setOptions(data.options || []);
-      setSelectedOption(0);
+      setSelected(0);
     } catch { setError("Gagal konek ke server!"); }
     finally { setLoading(false); }
   };
 
-  const current = options[selectedOption];
+  const current = options[selected];
 
   return (
     <main className="min-h-screen" style={{ background: "#F1F5F9" }}>
-      {/* Header */}
       <div className="px-4 pt-8 pb-6" style={{ background: "#1B2B6B" }}>
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center gap-3 mb-1">
@@ -266,7 +273,6 @@ export default function Home() {
       </div>
 
       <div className="max-w-2xl mx-auto px-4 -mt-2">
-        {/* Search Card */}
         <div className="rounded-2xl p-5 mb-4 shadow-lg" style={{ background: "#fff" }}>
           <div className="space-y-4">
             <LocationInput label="Lokasi Asal" icon="🔵" value={from}
@@ -296,20 +302,21 @@ export default function Home() {
           <div className="rounded-xl p-4 mb-4 text-sm font-medium" style={{ background: "#FEE2E2", color: "#991B1B" }}>❌ {error}</div>
         )}
 
-        {/* Route Options Tabs */}
+        {/* Route Option Tabs */}
         {options.length > 0 && (
           <div className="flex gap-2 mb-3">
             {options.map((opt, i) => (
-              <button key={i} onClick={() => { setSelectedOption(i); setShowMap(false); }}
-                className="flex-1 rounded-xl py-2.5 px-3 text-center transition-all border-2"
+              <button key={i} onClick={() => { setSelected(i); setShowMap(false); }}
+                className="flex-1 rounded-xl py-3 px-3 text-center transition-all border-2"
                 style={{
-                  background: selectedOption === i ? "#1B2B6B" : "#fff",
-                  borderColor: selectedOption === i ? "#1B2B6B" : "#E2E8F0",
-                  color: selectedOption === i ? "#fff" : "#1B2B6B"
+                  background: selected === i ? "#1B2B6B" : "#fff",
+                  borderColor: selected === i ? "#1B2B6B" : "#E2E8F0",
+                  color: selected === i ? "#fff" : "#1B2B6B"
                 }}>
-                <div className="text-lg">{opt.icon}</div>
-                <div className="text-xs font-bold mt-0.5">{opt.label}</div>
-                <div className="text-xs opacity-75">{formatRupiah(opt.estimated_fare)}</div>
+                <div className="text-xl mb-1">{opt.icon}</div>
+                <div className="text-xs font-bold">{opt.label}</div>
+                <div className="text-xs mt-1 opacity-80">{formatRupiah(opt.estimated_fare)}</div>
+                <div className="text-xs opacity-60">{estimateTime(opt.total_stops, opt.transfers)}</div>
               </button>
             ))}
           </div>
@@ -318,40 +325,49 @@ export default function Home() {
         {/* Route Detail */}
         {current && (
           <div className="rounded-2xl overflow-hidden shadow-lg mb-8" style={{ background: "#fff" }}>
-            {/* Summary */}
+            {/* Header */}
             <div className="px-5 py-4" style={{ background: "#1B2B6B" }}>
               <div className="flex justify-between items-start mb-3">
-                <div>
-                  <div className="font-bold text-white">{current.from}</div>
+                <div className="flex-1">
+                  <div className="font-bold text-white text-sm">{current.from}</div>
                   <div className="text-xs my-0.5" style={{ color: "#93C5FD" }}>↓ menuju</div>
-                  <div className="font-bold text-white">{current.to}</div>
+                  <div className="font-bold text-white text-sm">{current.to}</div>
                 </div>
-                <div className="text-right">
-                  <div className="text-3xl font-extrabold text-white">{current.total_stops}</div>
+                <div className="text-right ml-4">
+                  <div className="text-2xl font-extrabold text-white">{current.total_stops}</div>
                   <div className="text-xs" style={{ color: "#93C5FD" }}>halte</div>
                 </div>
               </div>
 
-              {/* Stats */}
+              {/* Stats row */}
               <div className="grid grid-cols-3 gap-2 mb-3">
-                <div className="rounded-xl p-2.5 text-center" style={{ background: "rgba(255,255,255,0.1)" }}>
-                  <div className="text-white font-bold">{formatRupiah(current.estimated_fare)}</div>
+                <div className="rounded-xl p-2 text-center" style={{ background: "rgba(255,255,255,0.1)" }}>
+                  <div className="font-bold text-white text-sm">{formatRupiah(current.estimated_fare)}</div>
                   <div className="text-xs" style={{ color: "#93C5FD" }}>Estimasi</div>
                 </div>
-                <div className="rounded-xl p-2.5 text-center" style={{ background: "rgba(255,255,255,0.1)" }}>
-                  <div className="text-white font-bold">{current.transfers}x</div>
-                  <div className="text-xs" style={{ color: "#93C5FD" }}>Transfer</div>
+                <div className="rounded-xl p-2 text-center" style={{ background: "rgba(255,255,255,0.1)" }}>
+                  <div className="font-bold text-white text-sm">{estimateTime(current.total_stops, current.transfers)}</div>
+                  <div className="text-xs" style={{ color: "#93C5FD" }}>Estimasi waktu</div>
                 </div>
-                <div className="rounded-xl p-2.5 text-center" style={{ background: "rgba(255,255,255,0.1)" }}>
+                <div className="rounded-xl p-2 text-center" style={{ background: "rgba(255,255,255,0.1)" }}>
                   <div className="flex flex-wrap justify-center gap-1">
-                    {current.agencies.map((a, i) => (
-                      <span key={i} className="text-xs px-1.5 py-0.5 rounded font-bold text-white" style={{ background: AGENCY_BADGE[a]?.bg || "#fff3" }}>
+                    {current.agencies.filter(a => a !== "TRANSFER").map((a, i) => (
+                      <span key={i} className="text-xs px-1.5 py-0.5 rounded font-bold text-white" style={{ background: AGENCY[a]?.bg || "#fff3" }}>
                         {a}
                       </span>
                     ))}
                   </div>
                   <div className="text-xs mt-1" style={{ color: "#93C5FD" }}>Moda</div>
                 </div>
+              </div>
+
+              {/* Moda badges */}
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {current.agencies.filter(a => a !== "TRANSFER").map((a, i) => (
+                  <span key={i} className="text-xs px-2.5 py-1 rounded-full text-white font-medium" style={{ background: "rgba(255,255,255,0.15)" }}>
+                    {AGENCY[a]?.label}
+                  </span>
+                ))}
               </div>
 
               <button onClick={() => setShowMap(!showMap)}
