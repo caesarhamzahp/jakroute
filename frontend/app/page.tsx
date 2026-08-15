@@ -249,7 +249,9 @@ export default function Home() {
     if (!fromQuery || !toQuery) { setError("Pilih lokasi dari dropdown dulu ya!"); return; }
     setLoading(true); setError(""); setOptions([]); setShowMap(false);
     try {
-      const res = await fetch(`${API}/api/route/options?from_stop=${encodeURIComponent(fromQuery)}&to_stop=${encodeURIComponent(toQuery)}`);
+      const fromId = fromStop?.stop_id || ""
+      const toId = toStop?.stop_id || ""
+      const res = await fetch(`${API}/api/route/options?from_stop=${encodeURIComponent(fromQuery)}&to_stop=${encodeURIComponent(toQuery)}&from_id=${encodeURIComponent(fromId)}&to_id=${encodeURIComponent(toId)}`);
       if (!res.ok) { const e = await res.json(); setError(e.detail); return; }
       const data = await res.json();
       setOptions(data.options || []);
@@ -390,3 +392,4 @@ export default function Home() {
     </main>
   );
 }
+
